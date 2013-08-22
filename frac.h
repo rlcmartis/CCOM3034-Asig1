@@ -3,12 +3,13 @@
 // Laboratorio #1
 // Estudiantes: Daniel Ramirez & Ramon Collazo
 
-#ifndef FRAC_H
-#define FRAC_H
+#ifndef FRACARRAY_H
+#define FRACARRAY_H
 
 class Fraction {
 private:
-    	int num, denom; //Private variables thats saves numerator and denominator
+    	int num, denom; //Private variables thats saves 
+			//numerator and denominator
 public:
 	Fraction();
     	Fraction(int n, int d);
@@ -24,18 +25,9 @@ public:
 	//Protype functions
 	//It prints the Fraction in the form num"/"denom
     	void print(); 
-
+	
 	//It returns the calling variable plus the parameter
 	Fraction add(const Fraction & F);
-
-	//It returns the calling variable minus the parameter
-	Fraction sub(const Fraction & F);
-
-	//It returns the calling variable times the parameter
-    	Fraction mul(const Fraction & F); 
-
-	//It returns the calling variable divided by the parameter
-	Fraction div(const Fraction & F); 
 
 	//It returns true if the calling variable is
 	// greater or equal than the parameter	
@@ -44,4 +36,20 @@ public:
 	//It simplifies the calling Fraction
     	Fraction reduce(); 
 };
+
+class ArrayOfFractions {
+private :
+	Fraction A[10];
+public :
+	//Constructor
+	ArrayOfFractions();
+	
+	//Prototypes
+	void sortAccending(); //It sorts an array of Fractions from low to high
+	void print(); //It prints the array of fractions like this [1/2, 3/4]
+	Fraction mini(); //It returns the minimum fraction of the array
+	Fraction maxi(); //It returns the highest fraction of the array
+	Fraction sum();	//It returns the summatory of the array of fractions
+};
+
 #endif
