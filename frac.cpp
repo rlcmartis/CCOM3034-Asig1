@@ -3,9 +3,12 @@
 // Laboratorio #1
 // Estudiantes: Daniel Ramirez & Ramon Collazo
 
-#include "frac.h"
+#include "fracArray.h"
 #include <iostream>
+#include <time.h>
+#include <algorithm>
 using namespace std;
+
 
 //Constructor of Fraction assigns default values to num and denom
 Fraction::Fraction(){
@@ -50,7 +53,7 @@ void Fraction::print(){
 	//If the denom is 1, then it is an integer, and prints the numerator
 	if (denom == 1)
                 cout << num;
-
+	
 	//If the num and denom are different, it prints the fraction
 	else if (num != denom)
 		cout << num << "/" << denom;
@@ -77,46 +80,6 @@ Fraction Fraction::add(const Fraction & F){
 	}
 	//Reduce the fraction before returning it
 	F1=F1.reduce();
-	return F1;
-}
-
-//It substracts and return the calling fraction minus the given by parameter
-Fraction Fraction::sub(const Fraction & F){
-	Fraction F1;
-	//If the denominators are 
-	if (F.denom == denom){
-        	F1.num = (num - F.num);
-        	F1.denom = (denom);
-	}
-	else{
-        	F1.num = ((F.denom * num) - (F.num * denom));
-            	F1.denom = (F.denom * denom);
-    	}
-
-    	//Reduces the fraction before returning it
-	F1=F1.reduce();
-    	return F1;
-}
-
-//Multiplies the fractions with the parameter's fractions
-Fraction Fraction::mul(const Fraction & F){
-	Fraction F1;
-	F1.num = num * F.num;
-	F1.denom = denom * F.denom;
-
-	//Educes the fraction before returning it
-	F1= F1.reduce();
-	return F1;
-}
-
-//Divisdes the fractions with the parameter's fractions
-Fraction Fraction::div(const Fraction & F){
-	Fraction F1;
-	F1.num = num * F.denom;
-	F1.denom = denom * F.num;
-
-	//Reduces the fraction before returning it
-	F1 = F1.reduce();
 	return F1;
 }
 
@@ -155,4 +118,94 @@ Fraction  Fraction::reduce(){
                 }
 	}
 	return F;
+}
+
+//Constructor for the object ArrayOfFractions
+ArrayOfFractions::ArrayOfFractions(){
+	srand(time(NULL)); //Resets the seed for random numbers
+	
+	//Sets a random number on the numerator and denominator	
+    	for (int i=0; i<10; i++){
+        	A[i].setNum( rand() % 9 + 1);
+        	A[i].setDenom( rand() % 9 + 1);
+    	}
+}
+
+//Implemented sorting function
+void ArrayOfFractions::sortAccending(){
+	for (int stindex=0; stindex< 10; stindex++){
+		int smindex = stindex;
+		for (int cindex = stindex+1; cindex<10; cindex++){
+			if (!(A[cindex].gt(A[smindex])))
+				smindex = cindex;
+		}
+		swap(A[stindex], A[smindex]);
+	}
+}
+
+//Prints the array of fraction objects
+void ArrayOfFractions::print(){
+	cout << "["; //Prints the open bracket
+    	
+	for (int i=0; i<10; i++){
+        	cout << A[i].getNum() << "/" << A[i].getDenom();
+        	if (i < 9){
+			cout << ", "; //prints the comma if it isn't the 
+				      //final position
+        	}
+    	}	
+	cout << "]"; //prints the closing bracket
+
+}
+
+//Function that returns the smallest fraction
+Fraction ArrayOfFractions::mini(){
+	int minindex; //holds smallest index
+
+	minindex = 0;
+
+    	for (int i=1; i<10; i++){
+		//If the function "grater than" is true, then the minindex is i
+        	if (A[minindex].gt(A[i])){
+            		minindex = i;
+        	}
+    	}
+	//returns the smallest fraction
+    	return A[minindex];
+}
+
+//Function that returns the fraction
+Fraction ArrayOfFractions::maxi(){
+    	int maxindex; //holds largest index
+
+    	maxindex = 0;
+
+    	for (int i=1; i<10; i++){
+		//If the function "grater than" is false, then the maxindex is i
+        	if (!(A[maxindex].gt(A[i]))){
+            		maxindex = i;
+        	}
+    	}
+	//returns the largest fraction
+    	return A[maxindex];
+}
+
+//Function that returns the sum of the array of fractions
+Fraction ArrayOfFractions::sum(){
+    	Fraction F; //Used to store the sum
+	
+	//Sets the default for the numerator and denominator
+    	F.setNum(0);
+    	F.setDenom(1);
+	
+	//For each frac in the array, it will invoke the add function 
+	//on F with the current fraction
+    	for (int i=0; i<10; i++){
+        	F = F.add(A[i]);
+    	}
+	
+	//Reduces the fraction
+    	F = F.reduce();
+
+    	return F;
 }
